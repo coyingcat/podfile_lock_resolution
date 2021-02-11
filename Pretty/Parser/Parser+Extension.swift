@@ -44,18 +44,6 @@ extension Parser {
         }
     }
     
-    func then<B>(lhs: @escaping (Result) -> Parser<B>) -> Parser<B> {
-        
-        return Parser<B> {
-            input in
-            guard let rt = self.parseX(input) else {
-                return nil
-            }
-            
-            return lhs(rt.0).parseX(rt.1)
-        }
-    }
-    
     func followed<A>(by other: Parser<A>) -> Parser<(Result, A)> {
         return Parser<(Result, A)>  {
             input in
@@ -68,16 +56,7 @@ extension Parser {
         }
     }
     
-    func or(_ other: Parser<Result>) -> Parser<Result> {
-        
-        return Parser {
-            input in
-            return self.parseX(input) ?? other.parseX(input)
-        }
-    }
-    
     var optional: Parser<Result?> {
-        
         return Parser<Result?> {
             input in
             guard let (result, remainder) = self.parseX(input) else {
