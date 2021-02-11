@@ -79,7 +79,7 @@ private let rightParent = character(")")
 private let podsX = string("PODS:\n")
 
 private let word = character {
-    !CharacterSet.whitespacesAndNewlines.contains($0) }.many.map { String($0) }
+    !CharacterSet.whitespacesAndNewlines.contains($0) }.many.tranform{ String($0) }
 
 /// Parse Version Part: `(= 1.2.2)` or `(1.2.3)` or `(whatever)`
 private let version = leftParent.followed(by: character { $0 != ")" }.many).followed(by: rightParent)
@@ -92,10 +92,8 @@ private let subItem = indentation *> item
 
 private let dependencyItem = curry(dependencyCombine) <^> item <*> subItem.many.optional
 
-private let dependencyItems = dependencyItem.many.map { x -> [String : [String]] in
-    
+private let dependencyItems = dependencyItem.many.tranform{ x -> [String : [String]] in
     var map = [String: [String]]()
-    
     x.forEach { map[$0.0] = $0.1 }
     return map
 }

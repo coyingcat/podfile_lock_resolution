@@ -17,7 +17,7 @@ import Foundation
 ///   - rhs: m a
 /// - Returns: m b
 func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
-    return rhs.map(lhs)
+    return rhs.tranform(lhs)
 }
 
 
@@ -33,7 +33,7 @@ func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
 /// - Returns: m b
 func <*><A, B>(lhs: Parser<(A) -> B>, rhs: Parser<A>) -> Parser<B> {
     
-    return lhs.followed(by: rhs).map { $0($1) }
+    return lhs.followed(by: rhs).tranform{ $0($1) }
 }
 
 
