@@ -33,7 +33,7 @@ extension Parser {
     }
 
     
-    func tranform<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
+    func convert<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
         
         return Parser<T> {
             input in

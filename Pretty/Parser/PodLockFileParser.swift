@@ -79,7 +79,7 @@ private let rightParent = character(")")
 private let podsX = string("PODS:\n")
 
 private let word = character {
-    !CharacterSet.whitespacesAndNewlines.contains($0) }.many.tranform{ String($0) }
+    !CharacterSet.whitespacesAndNewlines.contains($0) }.many.convert{ String($0) }
 
 /// Parse Version Part: `(= 1.2.2)` or `(1.2.3)` or `(whatever)`
 private let version = leftParent.followed(by: character { $0 != ")" }.many).followed(by: rightParent)
@@ -89,10 +89,10 @@ private let item = (indentation *> hyphon *> space *> quote.optional *> word)
     <* (space.followed(by: version)).optional <* quote.optional <* colon.optional <* newLine
 
 private let subItem = indentation *> item
-
+// 很有意思的，初始化方法
 private let dependencyItem: Parser<(String, [String])> = tranformX(lhs: curry(dependencyCombine), rhs: item) <*> subItem.many.optional
 
-private let dependencyItems = dependencyItem.many.tranform{ x -> [String : [String]] in
+private let dependencyItems = dependencyItem.many.convert{ x -> [String : [String]] in
     var map = [String: [String]]()
     x.forEach { map[$0.0] = $0.1 }
     return map
