@@ -1,19 +1,7 @@
 
-precedencegroup RunesAlternativePrecedence {
-    associativity: left
-    higherThan: LogicalConjunctionPrecedence
-    lowerThan: ComparisonPrecedence
-}
-
-precedencegroup RunesApplicativePrecedence {
-    associativity: left
-    higherThan: RunesAlternativePrecedence
-    lowerThan: NilCoalescingPrecedence
-}
-
 precedencegroup RunesApplicativeSequencePrecedence {
     associativity: left
-    higherThan: RunesApplicativePrecedence
+    higherThan: LogicalConjunctionPrecedence
     lowerThan: NilCoalescingPrecedence
 }
 
