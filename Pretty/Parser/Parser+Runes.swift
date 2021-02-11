@@ -64,16 +64,3 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
     return curry({ x, _ in x }) <^> lhs <*> rhs
 }
 
-
-/// or
-/// m a -> m a -> m a
-///
-/// - Parameters:
-///   - lhs: m a
-///   - rhs: m a
-/// - Returns: m a
-func <|><A>(lhs: Parser<A>, rhs: Parser<A>) -> Parser<A> {
-    
-    return lhs.or(rhs)
-}
-

@@ -57,14 +57,6 @@ infix operator <* : RunesApplicativeSequencePrecedence
 infix operator *> : RunesApplicativeSequencePrecedence
 
 /**
- an associative binary operation
- Expected function type: `f a -> f a -> f a`
- Haskell `infixl 3`
- */
-infix operator <|> : RunesAlternativePrecedence
-
-
-/**
  map a function over a value with context and flatten the result
  Expected function type: `(a -> m b) -> m a -> m b`
  Haskell `infixr 1`
