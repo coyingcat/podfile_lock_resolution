@@ -30,7 +30,7 @@ class RelationView: NSView {
     //    MARK: Life Cycle
     
     init() {
-        super.init(frame: NSRect())
+        super.init(frame:.zero)
     }
     
     required init?(coder decoder: NSCoder) {

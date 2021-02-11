@@ -20,7 +20,7 @@ struct NodeFrame: Codable {
 extension NodeFrame {
     
     var rect: NSRect {
-        return NSRect(x: x, y: y, width: width, height: height)
+        NSRect(x: x, y: y, width: width, height: height)
     }
 }
 
