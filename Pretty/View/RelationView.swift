@@ -22,7 +22,6 @@ class RelationView: NSView {
     private var lastDragPosition = NSPoint(x: 0, y: 0)
     
     var prettyRelation = PrettyRelation(nodes: []) {
-        
         didSet {
             setUp()
         }
@@ -166,13 +165,11 @@ class RelationView: NSView {
     /// - Returns: RelationItemView or nil
     private func findItemLocate(in position: NSPoint) -> RelationItemView? {
         
-        for (_, item) in itemMap {
-            
+        for (_, item) in itemMap {   
             if item.frame.contains(position) {
                 return item
             }
         }
-        
         return nil
     }
     

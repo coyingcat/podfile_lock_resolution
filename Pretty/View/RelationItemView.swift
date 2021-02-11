@@ -55,8 +55,7 @@ class RelationItemView: NSView {
     }
     
     var center: NSPoint {
-        
-        return NSPoint(x: frame.origin.x + frame.size.width / 2,
+        NSPoint(x: frame.origin.x + frame.size.width / 2,
                        y: frame.origin.y + frame.size.height / 2)
     }
 }

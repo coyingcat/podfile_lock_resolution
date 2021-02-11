@@ -29,11 +29,7 @@ public extension HexColor {
             return nil
         }
         
-        #if os(iOS) || os(watchOS) || os(tvOS)
-        self.init(red: components.red, green: components.green, blue: components.blue, alpha: alpha ?? components.alpha)
-        #else
         self.init(calibratedRed: components.red, green: components.green, blue: components.blue, alpha: alpha ?? components.alpha)
-        #endif
     }
     
     /// The string hex value representation of the current color
