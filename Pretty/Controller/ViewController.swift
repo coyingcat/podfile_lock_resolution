@@ -22,7 +22,7 @@ class ViewController: NSViewController {
         scrollView.documentView = relationView
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleOpenFile(notification:)), name: NSNotification.Name(rawValue: OCTOpenFileNotification), object: nil)
-        FileName = "/Users/jzd/Downloads/Lumiere/Podfile.lock"
+     //   FileName = "/Users/jzd/Downloads/Lumiere/Podfile.lock"
         if FileName.count > 0 {
             
             updateRelationView(filename: FileName)

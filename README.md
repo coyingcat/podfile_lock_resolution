@@ -17,9 +17,14 @@
 
 ## Demo
 
+
+效果:
+
+
 ![image](https://github.com/octree/pretty/raw/master/Images/dependency.png)
 
 
+使用：
 
 ![demo.gif](https://github.com/octree/pretty/raw/master/Images/demo.gif)
 
