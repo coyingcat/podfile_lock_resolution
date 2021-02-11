@@ -90,7 +90,7 @@ private let item = (indentation *> hyphon *> space *> quote.optional *> word)
 
 private let subItem = indentation *> item
 // 很有意思的，初始化方法
-private let dependencyItem: Parser<(String, [String])> = tranformX(lhs: curry(dependencyCombine), rhs: item) <*> subItem.many.optional
+private let dependencyItem: Parser<(String, [String])> = tranformX(lhs: curry(dependencyCombine), rhs: item).followed(by: subItem.many.optional).convert{ $0($1) }
 
 private let dependencyItems = dependencyItem.many.convert{ x -> [String : [String]] in
     var map = [String: [String]]()

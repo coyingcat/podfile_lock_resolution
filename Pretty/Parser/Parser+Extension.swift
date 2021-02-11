@@ -29,7 +29,7 @@ extension Parser {
     
     
     var many: Parser<[Result]> {
-        tranformX(lhs: curry { [$0] + $1 }, rhs: self) <*> self._many
+        tranformX(lhs: curry { [$0] + $1 }, rhs: self).followed(by: self._many).convert{ $0($1) }
     }
 
     
