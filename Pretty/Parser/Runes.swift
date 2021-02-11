@@ -63,12 +63,6 @@ infix operator *> : RunesApplicativeSequencePrecedence
  */
 infix operator <|> : RunesAlternativePrecedence
 
-/**
- map a function over a value with context and flatten the result
- Expected function type: `m a -> (a -> m b) -> m b`
- Haskell `infixl 1`
- */
-infix operator >>- : RunesMonadicPrecedenceLeft
 
 /**
  map a function over a value with context and flatten the result

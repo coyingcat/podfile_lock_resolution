@@ -15,7 +15,7 @@ import Foundation
 /// - Returns: Parser<Character>
 func character(matching condition: @escaping (Character) -> Bool) -> Parser<Character> {
     
-    return Parser(parse: { input in
+    return Parser(parseX: { input in
         guard let char = input.first, condition(char) else {
             return nil
         }

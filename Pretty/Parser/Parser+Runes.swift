@@ -21,17 +21,7 @@ func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
 }
 
 
-/// Monad
-/// a -> m b -> m a -> m b
-///
-/// - Parameters:
-///   - lhs: a -> m b
-///   - rhs: m a
-/// - Returns: m b
-func >>-<A, B>(lhs: Parser<A>, rhs: @escaping (A) -> Parser<B>) -> Parser<B> {
-    
-    return lhs.then(lhs: rhs)
-}
+
 
 
 /// applicative

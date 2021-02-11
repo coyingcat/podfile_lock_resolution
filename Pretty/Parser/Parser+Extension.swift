@@ -18,7 +18,7 @@ extension Parser {
             var result: [Result] = []
             var remainder = input
             
-            while let (element, newRemainder) = self.parse(remainder) {
+            while let (element, newRemainder) = self.parseX(remainder) {
                 
                 result.append(element)
                 remainder = newRemainder
@@ -37,7 +37,7 @@ extension Parser {
         
         return Parser<T> {
             input in
-            guard let (result, remainder) = self.parse(input) else {
+            guard let (result, remainder) = self.parseX(input) else {
                 return nil
             }
             return (transform(result), remainder)
@@ -48,11 +48,11 @@ extension Parser {
         
         return Parser<B> {
             input in
-            guard let rt = self.parse(input) else {
+            guard let rt = self.parseX(input) else {
                 return nil
             }
             
-            return lhs(rt.0).parse(rt.1)
+            return lhs(rt.0).parseX(rt.1)
         }
     }
     
@@ -60,8 +60,8 @@ extension Parser {
         return Parser<(Result, A)>  {
             input in
             
-            guard let (first, reminder) = self.parse(input),
-                let (second, newReminder) = other.parse(reminder) else {
+            guard let (first, reminder) = self.parseX(input),
+                let (second, newReminder) = other.parseX(reminder) else {
                     return nil
             }
             return ((first, second), newReminder)
@@ -72,7 +72,7 @@ extension Parser {
         
         return Parser {
             input in
-            return self.parse(input) ?? other.parse(input)
+            return self.parseX(input) ?? other.parseX(input)
         }
     }
     
@@ -80,7 +80,7 @@ extension Parser {
         
         return Parser<Result?> {
             input in
-            guard let (result, remainder) = self.parse(input) else {
+            guard let (result, remainder) = self.parseX(input) else {
                 return (nil, input)
             }
             return (result, remainder)

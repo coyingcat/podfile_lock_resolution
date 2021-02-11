@@ -12,6 +12,6 @@ struct Parser<Result> {
     
     typealias Stream = Substring
     
-    let parse: (Stream) -> (Result, Stream)?
+    let parseX: (Stream) -> (Result, Stream)?
 }
 
