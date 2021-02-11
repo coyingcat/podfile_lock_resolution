@@ -60,22 +60,16 @@ class ViewController: NSViewController {
         if filename.hasSuffix(".lock") {
             updateWithLockFile(filename: filename)
         } else {
-            updateWithPrettyFile(filename: filename)
+            updateWithDataFile(filename: filename)
         }
     }
     
     func updateWithLockFile(filename: String) {
-        
         do {
-            
             let string = try String(contentsOfFile: filename, encoding: .utf8)
-            
             if let (dependency, _) = PodLockFileParser.parse(Substring(string)) {
-                
                 relationView.prettyRelation = PrettyRelation(dependency: dependency)
-                alert(title: "Info", msg: "loaded \(filename)")
             } else {
-                
                 alert(title: "Error", msg: "Parse Error: Wrong Format")
             }
         } catch {
@@ -85,7 +79,7 @@ class ViewController: NSViewController {
     }
     
     
-    func updateWithPrettyFile(filename: String) {
+    func updateWithDataFile(filename: String) {
         
         do {
             
@@ -93,7 +87,6 @@ class ViewController: NSViewController {
             let data = try Data(contentsOf: url)
             let relation = try JSONDecoder().decode(PrettyRelation.self, from: data)
             relationView.prettyRelation = relation
-            alert(title: "Info", msg: "loaded \(filename)")
         } catch {
             
             alert(title: "Error", msg: error.localizedDescription)
