@@ -17,11 +17,11 @@
 
 ## Demo
 
-![image](https://github.com/octree/pretty/Images/dependency.png)
+![image](https://github.com/octree/pretty/raw/master/Images/dependency.png)
 
 
 
-![demo.gif](https://github.com/octree/pretty/Images/demo.gif)
+![demo.gif](https://github.com/octree/pretty/raw/master/Images/demo.gif)
 
 ## How To Use
 
