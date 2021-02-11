@@ -9,7 +9,8 @@
 import Foundation
 
 struct Parser<Result> {
-    
+    // result 分为两种，
+    // String / Character
     let parseX: (Substring) -> (Result, Substring)?
 }
 
