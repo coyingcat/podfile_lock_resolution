@@ -16,13 +16,14 @@ import Foundation
 ///   - lhs: a -> b
 ///   - rhs: m a
 /// - Returns: m b
-func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
+func tranformX<A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
     return rhs.tranform(lhs)
 }
 
 
-
-
+func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
+    return rhs.tranform(lhs)
+}
 
 /// applicative
 /// m (a -> b) -> m a -> m b
@@ -46,9 +47,8 @@ func <*><A, B>(lhs: Parser<(A) -> B>, rhs: Parser<A>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m b
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    
-    return curry({ _,
-        y in y }) <^> lhs <*> rhs
+    return tranformX(lhs: curry({ _,
+                           y in y }), rhs: lhs) <*> rhs
 }
 
 
@@ -60,7 +60,6 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
-    
-    return curry({ x, _ in x }) <^> lhs <*> rhs
+    return  tranformX(lhs: curry({ x, _ in x }), rhs: lhs) <*> rhs
 }
 

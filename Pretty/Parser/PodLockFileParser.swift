@@ -90,7 +90,7 @@ private let item = (indentation *> hyphon *> space *> quote.optional *> word)
 
 private let subItem = indentation *> item
 
-private let dependencyItem = curry(dependencyCombine) <^> item <*> subItem.many.optional
+private let dependencyItem: Parser<(String, [String])> = curry(dependencyCombine) <^> item <*> subItem.many.optional
 
 private let dependencyItems = dependencyItem.many.tranform{ x -> [String : [String]] in
     var map = [String: [String]]()
