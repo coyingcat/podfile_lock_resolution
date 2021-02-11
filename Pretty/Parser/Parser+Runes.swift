@@ -21,10 +21,6 @@ func tranformX<A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
 }
 
 
-func <^><A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
-    return rhs.tranform(lhs)
-}
-
 /// applicative
 /// m (a -> b) -> m a -> m b
 ///
