@@ -4,7 +4,7 @@
 
 
 
-#### 有参考 octree/pretty
+#### 有参考 octree/pretty (   这个库的精华，是数据解析部分  )
 
 
 一个根据 Podfile.lock 生成依赖图的 Mac App。
