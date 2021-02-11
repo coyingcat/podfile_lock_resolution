@@ -20,17 +20,7 @@ public func curry<T, U, V, W>(_ f:@escaping (T, U, V) -> W) -> (T) -> (U) -> (V)
     return {x in {y in {z in f(x, y, z) }}}
 }
 
-// 4
-public func curry<T, U, V, W, X>(_ f:@escaping (T, U, V, W) -> X) -> (T) -> (U) -> (V) -> (W) -> X {
-    
-    return {x in {y in {z in {u in f(x, y, z, u) }}}}
-}
 
-// 5
-public func curry<T, U, V, W, X, Y>(_ f:@escaping (T, U, V, W, X) -> Y) -> (T) -> (U) -> (V) -> (W) -> (X) -> Y {
-    
-    return {x in {y in {z in {u in {v in f(x, y, z, u, v) }}}}}
-}
 
 
 
