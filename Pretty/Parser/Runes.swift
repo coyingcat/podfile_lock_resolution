@@ -1,14 +1,3 @@
-precedencegroup RunesMonadicPrecedenceRight {
-    associativity: right
-    lowerThan: LogicalDisjunctionPrecedence
-    higherThan: AssignmentPrecedence
-}
-
-precedencegroup RunesMonadicPrecedenceLeft {
-    associativity: left
-    lowerThan: LogicalDisjunctionPrecedence
-    higherThan: AssignmentPrecedence
-}
 
 precedencegroup RunesAlternativePrecedence {
     associativity: left
@@ -28,12 +17,6 @@ precedencegroup RunesApplicativeSequencePrecedence {
     lowerThan: NilCoalescingPrecedence
 }
 
-/**
- map a function over a value with context
- Expected function type: `(a -> b) -> f a -> f b`
- Haskell `infixl 4`
- */
-infix operator <^> : RunesApplicativePrecedence
 
 /**
  sequence actions, discarding right (value of the second argument)
@@ -54,21 +37,3 @@ infix operator *> : RunesApplicativeSequencePrecedence
  Expected function type: `(a -> m b) -> m a -> m b`
  Haskell `infixr 1`
  */
-infix operator -<< : RunesMonadicPrecedenceRight
-
-/**
- compose two functions that produce results in a context,
- from left to right, returning a result in that context
- Expected function type: `(a -> m b) -> (b -> m c) -> a -> m c`
- Haskell `infixr 1`
- */
-infix operator >-> : RunesMonadicPrecedenceRight
-
-/**
- compose two functions that produce results in a context,
- from right to left, returning a result in that context
- like `>->`, but with the arguments flipped
- Expected function type: `(b -> m c) -> (a -> m b) -> a -> m c`
- Haskell `infixr 1`
- */
-infix operator <-< : RunesMonadicPrecedenceRight
