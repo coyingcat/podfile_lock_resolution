@@ -76,7 +76,7 @@ private let leftParent = character("(")
 private let rightParent = character(")")
 
 /// Just Parse `PODS:` 😅
-private let pods = string("PODS:\n")
+private let podsX = string("PODS:\n")
 
 private let word = character {
     !CharacterSet.whitespacesAndNewlines.contains($0) }.many.map { String($0) }
@@ -105,4 +105,4 @@ private let dependencyItems = dependencyItem.many.map { x -> [String : [String]]
 /// 解析成功会返回 [String: [String]]
 /// key: Pod Name
 /// value: 该 Pod 依赖的其他 Pods
-let PodLockFileParser = pods *> dependencyItems
+let PodLockFileParser = podsX *> dependencyItems

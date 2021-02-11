@@ -10,8 +10,6 @@ import Foundation
 
 struct Parser<Result> {
     
-    typealias Stream = Substring
-    
-    let parseX: (Stream) -> (Result, Stream)?
+    let parseX: (Substring) -> (Result, Substring)?
 }
 
