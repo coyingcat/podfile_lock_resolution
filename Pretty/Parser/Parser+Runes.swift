@@ -34,7 +34,7 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         guard let (result, remainder) = lhs.parseX(input) else {
             return nil
         }
-        return (curry({ x, _ in x })(result), remainder)
+        return ({ x in { _ in x } }(result), remainder)
     }
     let www: Parser<((B) -> A, B)> = caca.followed(by: rhs)
     return www.convert { (a: (B) -> A, b: B) -> A in
