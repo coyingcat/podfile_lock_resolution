@@ -105,11 +105,22 @@ private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (
 
 
 
-private let dependencyItems: Parser<[String: [String]]> = dependencyItem.many.convert{ x -> [String : [String]] in
-    var map = [String: [String]]()
-    x.forEach { map[$0.0] = $0.1 }
-    return map
-}
+private let dependencyItems: Parser<[String: [String]]> = {
+    Parser<[String: [String]]> {
+        input in
+        guard let (result, remainder) = dependencyItem.many.parseX(input) else {
+            return nil
+        }
+        return ({
+             x -> [String : [String]] in
+                var map = [String: [String]]()
+                x.forEach { map[$0.0] = $0.1 }
+                return map
+        }(result), remainder)
+    }
+}()
+
+
 
 typealias ResultFmt = [String: [String]]
 
