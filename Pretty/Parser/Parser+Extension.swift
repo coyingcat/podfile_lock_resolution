@@ -53,7 +53,7 @@ extension Parser {
     func followed<A>(by other: Parser<A>) -> Parser<(Result, A)> {
         return Parser<(Result, A)>  {
             input in
-            
+            // 先这一步 self  parse，再下一步 other parse
             guard let (first, reminder) = self.parseX(input),
                 let (second, newReminder) = other.parseX(reminder) else {
                     return nil
