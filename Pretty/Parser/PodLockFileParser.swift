@@ -8,7 +8,9 @@
 
 import Foundation
 
-
+/// 三种基础的文本处理方案
+///
+/// 
 /// Just parse one character
 ///
 /// - Parameter condition: condition
@@ -87,7 +89,9 @@ private let item: Parser<String> = (indentation *> hyphon *> space *> quote.opti
     <* (space.followed(by: version)).optional <* quote.optional <* colon.optional <* newLine
 
 private let subItem: Parser<String> = indentation *> item
-// 很有意思的，初始化方法
+// 很有意思的, 链式调用
+
+// 定义数据处理的逻辑单元， 函数式编程
 private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (String, [String])> {
     input in
     guard let (result, remainder) = item.parseX(input) else {
