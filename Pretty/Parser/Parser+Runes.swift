@@ -19,17 +19,10 @@ import Foundation
 
 // 处理右边
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    let qu = Parser<Void>{
-        input in
-        guard let (_, remainder) = lhs.parseX(input) else {
-            return nil
-        }
-        return ((), remainder)
-    }
     return Parser<B>{
         input in
         // 先这一步 self  parse，再下一步 other parse
-        guard let (_, reminder) = qu.parseX(input),
+        guard let (_, reminder) = lhs.parseX(input),
             let (second, newReminder) = rhs.parseX(reminder) else {
                 return nil
         }
@@ -51,16 +44,9 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 
 // 展开可以省略流程
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
-    let caca = Parser<A>{
-        input in
-        guard let (result, remainder) = lhs.parseX(input) else {
-            return nil
-        }
-        return (result, remainder)
-    }
     return Parser<(A)>{
         input in
-        guard let (first, reminder) = caca.parseX(input),
+        guard let (first, reminder) = lhs.parseX(input),
             let (_, newReminder) = rhs.parseX(reminder) else {
                 return nil
         }
