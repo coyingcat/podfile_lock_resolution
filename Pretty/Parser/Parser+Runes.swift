@@ -15,6 +15,9 @@ import Foundation
 ///   - lhs: m a
 ///   - rhs: m b
 /// - Returns: m b
+
+
+// 处理右边
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
     let qu = Parser<Void>{
         input in
@@ -42,6 +45,9 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - lhs: m a
 ///   - rhs: m b
 /// - Returns: m a
+
+
+// 处理左边
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     
     let caca = Parser<A>{

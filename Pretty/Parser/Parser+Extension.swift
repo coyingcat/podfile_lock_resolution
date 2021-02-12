@@ -48,6 +48,8 @@ extension Parser {
         }
     }
     
+    
+    // 处理下一步
     func followed<A>(by other: Parser<A>) -> Parser<(Result, A)> {
         return Parser<(Result, A)>  {
             input in
