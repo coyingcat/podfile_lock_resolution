@@ -28,5 +28,10 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
+    let aaa: (A) -> (A) -> A = curry { (x, _) -> A in
+        x
+    }
+    
+    
     return lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert{ $0($1) }
 }
