@@ -26,7 +26,7 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
         }
         return ((), remainder)
     }
-    let hao: Parser<B> = Parser<B>{
+    return Parser<B>{
         input in
         // 先这一步 self  parse，再下一步 other parse
         guard let (_, reminder) = qu.parseX(input),
@@ -34,13 +34,6 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
                 return nil
         }
         return (second, newReminder)
-    }
-    return Parser<B>{
-        input in
-        guard let (result, remainder) = hao.parseX(input) else {
-            return nil
-        }
-        return (result, remainder)
     }
 
 }
@@ -58,7 +51,6 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 
 // 展开可以省略流程
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
-    
     let caca = Parser<A>{
         input in
         guard let (result, remainder) = lhs.parseX(input) else {
@@ -66,20 +58,13 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         }
         return (result, remainder)
     }
-    let www: Parser<(A)> = Parser<(A)>{
+    return Parser<(A)>{
         input in
         guard let (first, reminder) = caca.parseX(input),
             let (_, newReminder) = rhs.parseX(reminder) else {
                 return nil
         }
         return (first, newReminder)
-    }
-    return Parser<A> {
-        input in
-        guard let (result, remainder) = www.parseX(input) else {
-            return nil
-        }
-        return (result, remainder)
     }
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释
