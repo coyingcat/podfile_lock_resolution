@@ -12,8 +12,7 @@ import Foundation
 extension Parser {
     
     private var _many: Parser<[Result]> {
-        
-        return Parser<[Result]> {
+        Parser<[Result]> {
             input in
             var result = [Result]()
             var remainder = input
@@ -62,7 +61,7 @@ extension Parser {
     }
     
     var optional: Parser<Result?> {
-        return Parser<Result?> {
+        Parser<Result?> {
             input in
             guard let (result, remainder) = self.parseX(input) else {
                 return (nil, input)
