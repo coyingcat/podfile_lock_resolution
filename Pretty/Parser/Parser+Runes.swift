@@ -16,8 +16,12 @@ import Foundation
 ///   - rhs: m b
 /// - Returns: m b
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    return lhs.convert(curry({ _,
-                               y in y })).followed(by: rhs).convert{ $0($1) }
+    let hao: Parser<((B) -> B, B)> = lhs.convert(curry({ _,
+                        y in y })).followed(by: rhs)
+        
+    let over: Parser<B> = hao.convert{ $0($1) }
+    
+    return over
 }
 
 /// Ignoring Right
@@ -29,12 +33,12 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     
-    let caca: Parser<(B) -> A> = Parser<(B) -> A> {
+    let caca = Parser<(B) -> A> {
         input in
         guard let (result, remainder) = lhs.parseX(input) else {
             return nil
         }
-        return ({ x in { _ in x } }(result), remainder)
+        return ({ _ in result }, remainder)
     }
     let www: Parser<((B) -> A, B)> = caca.followed(by: rhs)
     return www.convert { (a: (B) -> A, b: B) -> A in
