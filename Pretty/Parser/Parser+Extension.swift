@@ -28,13 +28,14 @@ extension Parser {
     
     
     var many: Parser<[Result]> {
-        Parser<(Array<Result>) -> Array<Result>>{
+        Parser<[Result]>{
             input in
             guard let (result, remainder) = self.parseX(input) else {
                 return nil
             }
-            return ({ y in [result] + y }, remainder)
-        }.followed(by: self._many).convert{ $0($1) }
+            return ( [result], remainder)
+            // $0, [result], 数组里面，只含有一个元素
+        }.followed(by: self._many).convert{ $0 + $1 }
     }
 
     func convert<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
