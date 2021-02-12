@@ -15,7 +15,7 @@ import Foundation
 ///
 /// - Parameter condition: condition
 /// - Returns: Parser<Character>
-func character(matching condition: @escaping (Character) -> Bool) -> Parser<Character> {
+func parse(charMatching condition: @escaping (Character) -> Bool) -> Parser<Character> {
     
     return Parser(parseX: { input in
         guard let char = input.first, condition(char) else {
@@ -30,9 +30,9 @@ func character(matching condition: @escaping (Character) -> Bool) -> Parser<Char
 ///
 /// - Parameter ch: character
 /// - Returns: Parser<Character>
-func character(_ ch: Character) -> Parser<Character> {
+func handle(character ch: Character) -> Parser<Character> {
     
-    return character {
+    return parse {
         $0 == ch
     }
 }
@@ -42,7 +42,7 @@ func character(_ ch: Character) -> Parser<Character> {
 ///
 /// - Parameter string: expected string
 /// - Returns: Parser<String>
-func string(_ string: String) -> Parser<String> {
+func handle(string: String) -> Parser<String> {
     
     return Parser { input in
         
@@ -54,34 +54,34 @@ func string(_ string: String) -> Parser<String> {
 }
 
 /// 冒号
-private let colon = character { $0 == ":" }
+private let colon = parse { $0 == ":" }
 
 /// 空格
-private let space = character(" ")
+private let space = handle(character: " ")
 
 /// 换行
-private let newLine = character("\n")
+private let newLine = handle(character: "\n")
 
 /// 缩进
 private let indentation = space.followed(by: space)
 
 /// -
-private let hyphon = character("-")
-private let quote = character("\"")
+private let hyphon = handle(character: "-")
+private let quote = handle(character: "\"")
 
-private let leftParent = character("(")
-private let rightParent: Parser<Character> = character(")")
+private let leftParent = handle(character: "(")
+private let rightParent: Parser<Character> = handle(character: ")")
 
 /// Just Parse `PODS:` 😅
-private let podsX: Parser<String> = string("PODS:\n")
+private let podsX: Parser<String> = handle(string: "PODS:\n")
 
-private let word: Parser<String> = character {
+private let word: Parser<String> = parse {
     !CharacterSet.whitespacesAndNewlines.contains($0) }.many.convert{ String($0) }
 
 
 // 这个有意思， 这里直观
 /// Parse Version Part: `(= 1.2.2)` or `(1.2.3)` or `(whatever)`
-private let version: Parser<((Character, [Character]), Character)> = leftParent.followed(by: character { $0 != ")" }.many).followed(by: rightParent)
+private let version: Parser<((Character, [Character]), Character)> = leftParent.followed(by: parse { $0 != ")" }.many).followed(by: rightParent)
 
 // 调用的简洁，意味着维护了多余的结构
 // 链式编程，操作符返回 self
