@@ -95,13 +95,13 @@ private let subItem: Parser<String> = indentation *> item
 // 很有意思的, 链式调用
 
 // 定义数据处理的逻辑单元， 函数式编程
-private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (String, [String])> {
+private let dependencyItem: Parser<(String, [String])> = Parser<String> {
     input in
     guard let (result, remainder) = item.parseX(input) else {
         return nil
     }
-    return ({ y in (result, y ?? []) }, remainder)
-}.followed(by: subItem.many.optional).convert{ $0($1) }
+    return (result, remainder)
+}.followed(by: subItem.many.optional).convert{ ($0, $1 ?? []) }
 
 
 
