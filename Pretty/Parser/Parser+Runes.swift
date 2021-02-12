@@ -16,8 +16,15 @@ import Foundation
 ///   - rhs: m b
 /// - Returns: m b
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    let hao: Parser<((B) -> B, B)> = lhs.convert(curry({ _,
-                        y in y })).followed(by: rhs)
+    let qu = Parser<(B) -> B>{
+        input in
+        guard let (result, remainder) = lhs.parseX(input) else {
+            return nil
+        }
+        return (curry({ _,
+                        y in y })(result), remainder)
+    }
+    let hao: Parser<((B) -> B, B)> = qu.followed(by: rhs)
         
     let over: Parser<B> = hao.convert{ $0($1) }
     
