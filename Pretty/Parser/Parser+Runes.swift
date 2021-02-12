@@ -48,6 +48,8 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 
 
 // 处理左边
+
+// 展开可以省略流程
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     
     let caca = Parser<A>{
@@ -57,20 +59,20 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         }
         return (result, remainder)
     }
-    let www: Parser<(A, B)> = Parser<(A, B)>{
+    let www: Parser<(A)> = Parser<(A)>{
         input in
         guard let (first, reminder) = caca.parseX(input),
-            let (second, newReminder) = rhs.parseX(reminder) else {
+            let (_, newReminder) = rhs.parseX(reminder) else {
                 return nil
         }
-        return ((first, second), newReminder)
+        return (first, newReminder)
     }
     return Parser<A> {
         input in
         guard let (result, remainder) = www.parseX(input) else {
             return nil
         }
-        return (result.0, remainder)
+        return (result, remainder)
     }
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释
