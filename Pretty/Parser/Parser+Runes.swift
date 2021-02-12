@@ -44,20 +44,20 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     
-    let caca = Parser<() -> A> {
+    let caca = Parser<A>{
         input in
         guard let (result, remainder) = lhs.parseX(input) else {
             return nil
         }
-        return ({ result }, remainder)
+        return (result, remainder)
     }
-    let www: Parser<(() -> A, B)> = caca.followed(by: rhs)
+    let www: Parser<(A, B)> = caca.followed(by: rhs)
     return Parser<A> {
         input in
         guard let (result, remainder) = www.parseX(input) else {
             return nil
         }
-        return (result.0(), remainder)
+        return (result.0, remainder)
     }
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释
