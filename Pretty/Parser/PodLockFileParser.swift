@@ -91,7 +91,7 @@ private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (
     guard let (result, remainder) = item.parseX(input) else {
         return nil
     }
-    return ({ x in { y in (x, y ?? []) } }(result), remainder)
+    return ({ y in (result, y ?? []) }, remainder)
 }.followed(by: subItem.many.optional).convert{ $0($1) }
 
 
