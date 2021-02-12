@@ -102,21 +102,23 @@ private let dependencyItems: Parser<[String: [String]]> = dependencyItem.many.co
     return map
 }
 
+typealias ResultFmt = [String: [String]]
+
 /// 解析 Podfile.lock
 /// 解析成功会返回 [String: [String]]
 /// key: Pod Name
 /// value: 该 Pod 依赖的其他 Pods
-let PodLockFileParser: Parser<[String: [String]]> = {
-    let qu = Parser<([String: [String]]) -> [String: [String]]>{
+let PodLockFileParser: Parser<ResultFmt> = {
+    let qu = Parser<(ResultFmt) -> ResultFmt>{
         input in
         guard let (_, remainder) = podsX.parseX(input) else {
             return nil
         }
         return ({a in a}, remainder)
     }
-    let hao: Parser<(([String: [String]]) -> [String: [String]], [String: [String]])> = qu.followed(by: dependencyItems)
+    let hao: Parser<((ResultFmt) -> ResultFmt, ResultFmt)> = qu.followed(by: dependencyItems)
     
-    return Parser<[String: [String]]>{
+    return Parser<ResultFmt>{
         input in
         guard let (result, remainder) = hao.parseX(input) else {
             return nil
