@@ -86,7 +86,13 @@ private let item: Parser<String> = (indentation *> hyphon *> space *> quote.opti
 
 private let subItem: Parser<String> = indentation *> item
 // 很有意思的，初始化方法
-private let dependencyItem: Parser<(String, [String])> = item.convert({ x in { y in (x, y ?? []) } }).followed(by: subItem.many.optional).convert{ $0($1) }
+private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (String, [String])> {
+    input in
+    guard let (result, remainder) = item.parseX(input) else {
+        return nil
+    }
+    return ({ x in { y in (x, y ?? []) } }(result), remainder)
+}.followed(by: subItem.many.optional).convert{ $0($1) }
 
 
 
