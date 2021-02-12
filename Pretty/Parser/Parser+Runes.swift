@@ -29,7 +29,13 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     
-    let caca: Parser<(B) -> A> = lhs.convert(curry({ x, _ in x }))
+    let caca: Parser<(B) -> A> = Parser<(B) -> A> {
+        input in
+        guard let (result, remainder) = lhs.parseX(input) else {
+            return nil
+        }
+        return (curry({ x, _ in x })(result), remainder)
+    }
     let www: Parser<((B) -> A, B)> = caca.followed(by: rhs)
     return www.convert { (a: (B) -> A, b: B) -> A in
         a(b)
