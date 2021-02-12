@@ -8,25 +8,21 @@
 
 import Foundation
 
-
-/// 哈哈哈，帮助这些 lib 找爸爸
 ///
 /// - Parameter dependency: 依赖 [name: Sons]
 /// - Returns: [name: dads]
-private func whoIsYourDad(_ dependency: [String: [String]]) -> [String: [String]] {
+private func parentNode(_ dependency: [String: [String]]) -> [String: [String]] {
     
-    var dadsMap = [String: [String]]()
+    var pMap = [String: [String]]()
     for (key, sons) in dependency {
-        
         for name in sons {
-            
-            var parents = dadsMap[name] ?? []
+            var parents = pMap[name] ?? []
             parents.append(key)
-            dadsMap[name] = parents
+            pMap[name] = parents
         }
     }
     
-    return dadsMap
+    return pMap
 }
 
 
@@ -36,7 +32,7 @@ private func whoIsYourDad(_ dependency: [String: [String]]) -> [String: [String]
 /// - Returns: grouped dependency
 func groupPodDependency(_ dependency: [String: [String]]) -> [[String: [String]]] {
     
-    let reversed = whoIsYourDad(dependency)
+    let reversed = parentNode(dependency)
     var names = Set(dependency.keys)
     
     var lastDepthNames = [String]()

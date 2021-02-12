@@ -15,8 +15,7 @@ import Foundation
 ///
 /// - Parameter condition: condition
 /// - Returns: Parser<Character>
-func parse(charMatching condition: @escaping (Character) -> Bool) -> Parser<Character> {
-    
+func parse(charMatching condition: @escaping (Character) -> Bool) -> Parser<Character>{
     return Parser(parseX: { input in
         guard let char = input.first, condition(char) else {
             return nil
@@ -43,9 +42,7 @@ func handle(character ch: Character) -> Parser<Character> {
 /// - Parameter string: expected string
 /// - Returns: Parser<String>
 func handle(string: String) -> Parser<String> {
-    
     return Parser { input in
-        
         guard input.hasPrefix(string) else {
             return nil
         }
@@ -106,12 +103,12 @@ private let dependencyItem: Parser<MidFmt> = Parser<String> {
 
 
 private let dependencyItems: Parser<ResultFmt> = {
-    Parser<[String: [String]]> {
+    Parser<ResultFmt> {
         input in
         guard let (result, remainder) = dependencyItem.many.parseX(input) else {
             return nil
         }
-        var map = [String: [String]]()
+        var map = ResultFmt()
         result.forEach { map[$0.0] = $0.1 }
         return (map, remainder)
     }
