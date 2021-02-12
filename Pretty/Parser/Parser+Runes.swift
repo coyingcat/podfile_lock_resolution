@@ -16,14 +16,14 @@ import Foundation
 ///   - rhs: m b
 /// - Returns: m b
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    let qu = Parser<(B) -> B>{
+    let qu = Parser<Void>{
         input in
         guard let (_, remainder) = lhs.parseX(input) else {
             return nil
         }
-        return ({a in a}, remainder)
+        return ((), remainder)
     }
-    let hao: Parser<((B) -> B, B)> = qu.followed(by: rhs)
+    let hao: Parser<(Void, B)> = qu.followed(by: rhs)
     
     return Parser<B>{
         input in
