@@ -18,17 +18,14 @@ import Foundation
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
     let qu = Parser<(B) -> B>{
         input in
-        guard let (result, remainder) = lhs.parseX(input) else {
+        guard let (_, remainder) = lhs.parseX(input) else {
             return nil
         }
-        return (curry({ _,
-                        y in y })(result), remainder)
+        return ({a in a}, remainder)
     }
     let hao: Parser<((B) -> B, B)> = qu.followed(by: rhs)
-        
-    let over: Parser<B> = hao.convert{ $0($1) }
     
-    return over
+    return hao.convert{ $0($1) }
 }
 
 /// Ignoring Right
@@ -56,3 +53,13 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
 
 
 // 这个方法，非常的神奇
+
+
+// 从链式编程， 到函数式，到操作符，
+
+
+// 代码风格为不直观， 开劝退
+
+
+
+// 写代码的人，有才
