@@ -10,7 +10,7 @@ import Foundation
 
 /// 三种基础的文本处理方案
 ///
-/// 
+///
 /// Just parse one character
 ///
 /// - Parameter condition: condition
@@ -85,6 +85,9 @@ private let version: Parser<((Character, [Character]), Character)> = leftParent.
 
 // 调用的简洁，意味着维护了多余的结构
 // 链式编程，操作符返回 self
+
+
+// 严格契合，也没匹配多个空格 / 多个 ...
 private let item: Parser<String> = (indentation *> hyphon *> space *> quote.optional *> word)
     <* (space.followed(by: version)).optional <* quote.optional <* colon.optional <* newLine
 
