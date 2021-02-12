@@ -27,12 +27,25 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - lhs: m a
 ///   - rhs: m b
 /// - Returns: m a
-func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
+func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
     let aaa: (A) -> (A) -> A = { x in { _ in x } }
     let bbb: Parser<(A) -> A> = lhs.convert({ x in { _ in x } })
     let ccc: Parser<((A) -> A, B)> = bbb.followed(by: rhs)
+    /*
     
+    return Parser<A> {
+        input in
+        guard let (result, remainder) = ccc.parseX(input) else {
+            return nil
+        }
+        return (input.0(input.1)(result), remainder)
+    }
+    */
     
+    return lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert { (a: (B) -> A, b: B) -> A in
+        a(b)
+    }
+    /*
     let ggg: Parser<A > = lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert{ $0($1) }
     
     let ok = Parser<(A) -> A>{
@@ -48,7 +61,7 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
     let one: (A) -> (A) -> A = curry({ x, _ in x })
     let two: Parser<(A) -> A> = lhs.convert(one)
     let three: Parser<((A) -> A, B)> = two.followed(by: rhs)
-    
-    return ggg
+    */
+     
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释
