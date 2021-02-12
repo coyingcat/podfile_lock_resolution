@@ -95,7 +95,7 @@ private let subItem: Parser<String> = indentation *> item
 // 很有意思的, 链式调用
 
 // 定义数据处理的逻辑单元， 函数式编程
-private let dependencyItem: Parser<(String, [String])> = Parser<String> {
+private let dependencyItem: Parser<MidFmt> = Parser<String> {
     input in
     guard let (result, remainder) = item.parseX(input) else {
         return nil
@@ -105,7 +105,7 @@ private let dependencyItem: Parser<(String, [String])> = Parser<String> {
 
 
 
-private let dependencyItems: Parser<[String: [String]]> = {
+private let dependencyItems: Parser<ResultFmt> = {
     Parser<[String: [String]]> {
         input in
         guard let (result, remainder) = dependencyItem.many.parseX(input) else {
@@ -118,7 +118,7 @@ private let dependencyItems: Parser<[String: [String]]> = {
 }()
 
 
-
+typealias MidFmt = (String, [String])
 typealias ResultFmt = [String: [String]]
 
 /// 解析 Podfile.lock
