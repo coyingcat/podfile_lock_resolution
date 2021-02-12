@@ -133,7 +133,16 @@ let PodLockFileParser: Parser<ResultFmt> = {
         }
         return ((), remainder)
     }
-    let hao: Parser<(Void, ResultFmt)> = qu.followed(by: dependencyItems)
+    let hao = Parser<(Void, ResultFmt)>{
+        input in
+        // 先这一步 self  parse，再下一步 other parse
+        guard let (first, reminder) = qu.parseX(input),
+            let (second, newReminder) = dependencyItems.parseX(reminder) else {
+                return nil
+        }
+        return ((first, second), newReminder)
+    }
+        
     
     return Parser<ResultFmt>{
         input in
