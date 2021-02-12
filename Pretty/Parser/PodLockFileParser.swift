@@ -118,14 +118,14 @@ typealias ResultFmt = [String: [String]]
 /// key: Pod Name
 /// value: 该 Pod 依赖的其他 Pods
 let PodLockFileParser: Parser<ResultFmt> = {
-    let qu = Parser<(ResultFmt) -> ResultFmt>{
+    let qu = Parser<Void>{
         input in
         guard let (_, remainder) = podsX.parseX(input) else {
             return nil
         }
-        return ({a in a}, remainder)
+        return ((), remainder)
     }
-    let hao: Parser<((ResultFmt) -> ResultFmt, ResultFmt)> = qu.followed(by: dependencyItems)
+    let hao: Parser<(Void, ResultFmt)> = qu.followed(by: dependencyItems)
     
     return Parser<ResultFmt>{
         input in
