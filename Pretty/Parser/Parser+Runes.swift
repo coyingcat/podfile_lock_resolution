@@ -25,7 +25,14 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
     }
     let hao: Parser<((B) -> B, B)> = qu.followed(by: rhs)
     
-    return hao.convert{ $0($1) }
+    return Parser<B>{
+        input in
+        guard let (result, remainder) = hao.parseX(input) else {
+            return nil
+        }
+        return (result.0(result.1), remainder)
+    }
+
 }
 
 /// Ignoring Right
@@ -45,8 +52,12 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         return ({ _ in result }, remainder)
     }
     let www: Parser<((B) -> A, B)> = caca.followed(by: rhs)
-    return www.convert { (a: (B) -> A, b: B) -> A in
-        a(b)
+    return Parser<A> {
+        input in
+        guard let (result, remainder) = www.parseX(input) else {
+            return nil
+        }
+        return (result.0(result.1), remainder)
     }
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释

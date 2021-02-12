@@ -15,7 +15,7 @@ extension Parser {
         
         return Parser<[Result]> {
             input in
-            var result: [Result] = []
+            var result = [Result]()
             var remainder = input
             
             while let (element, newRemainder) = self.parseX(remainder) {
