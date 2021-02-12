@@ -104,4 +104,5 @@ private let dependencyItems = dependencyItem.many.convert{ x -> [String : [Strin
 /// 解析成功会返回 [String: [String]]
 /// key: Pod Name
 /// value: 该 Pod 依赖的其他 Pods
-let PodLockFileParser = podsX *> dependencyItems
+let PodLockFileParser: Parser<[String: [String]]> = podsX *> dependencyItems
+

@@ -45,3 +45,11 @@ func or(_ other: Parser<Result>) -> Parser<Result> {
 }
 
 ```
+
+
+<hr>
+
+
+简化，就是显式类型，
+
+降低抽样性
