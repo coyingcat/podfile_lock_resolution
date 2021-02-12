@@ -28,40 +28,14 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
-    let aaa: (A) -> (A) -> A = { x in { _ in x } }
-    let bbb: Parser<(A) -> A> = lhs.convert({ x in { _ in x } })
-    let ccc: Parser<((A) -> A, B)> = bbb.followed(by: rhs)
-    /*
     
-    return Parser<A> {
-        input in
-        guard let (result, remainder) = ccc.parseX(input) else {
-            return nil
-        }
-        return (input.0(input.1)(result), remainder)
-    }
-    */
-    let www: Parser<((B) -> A, B)> = lhs.convert(curry({ x, _ in x })).followed(by: rhs)
+    let caca: Parser<(B) -> A> = lhs.convert(curry({ x, _ in x }))
+    let www: Parser<((B) -> A, B)> = caca.followed(by: rhs)
     return www.convert { (a: (B) -> A, b: B) -> A in
         a(b)
     }
-    /*
-    let ggg: Parser<A > = lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert{ $0($1) }
-    
-    let ok = Parser<(A) -> A>{
-        input in
-        guard let (result, remainder) = lhs.parseX(input) else {
-            return nil
-        }
-        return ({ x in { _ in x } }(result), remainder)
-    }.followed(by: rhs)
-    
-    
-    
-    let one: (A) -> (A) -> A = curry({ x, _ in x })
-    let two: Parser<(A) -> A> = lhs.convert(one)
-    let three: Parser<((A) -> A, B)> = two.followed(by: rhs)
-    */
-     
 }
 // 不能确定类型，是因为不给足信息，可以存在多种解释
+
+
+// 这个方法，非常的神奇
