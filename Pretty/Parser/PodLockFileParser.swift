@@ -84,7 +84,8 @@ private let word: Parser<String> = character {
 /// Parse Version Part: `(= 1.2.2)` or `(1.2.3)` or `(whatever)`
 private let version: Parser<((Character, [Character]), Character)> = leftParent.followed(by: character { $0 != ")" }.many).followed(by: rightParent)
 
-
+// 调用的简洁，意味着维护了多余的结构
+// 链式编程，操作符返回 self
 private let item: Parser<String> = (indentation *> hyphon *> space *> quote.optional *> word)
     <* (space.followed(by: version)).optional <* quote.optional <* colon.optional <* newLine
 

@@ -68,6 +68,7 @@ class ViewController: NSViewController {
         do {
             let string = try String(contentsOfFile: filename, encoding: .utf8)
             if let (dependency, _) = PodLockFileParser.parseX(Substring(string)) {
+                // print(dependency)
                 relationView.prettyRelation = PrettyRelation(dependency: dependency)
             } else {
                 alert(title: "Error", msg: "Parse Error: Wrong Format")
