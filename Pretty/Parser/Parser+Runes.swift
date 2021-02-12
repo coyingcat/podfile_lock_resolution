@@ -26,8 +26,15 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
         }
         return ((), remainder)
     }
-    let hao: Parser<(Void, B)> = qu.followed(by: rhs)
-    
+    let hao: Parser<(Void, B)> = Parser<(Void, B)>{
+        input in
+        // 先这一步 self  parse，再下一步 other parse
+        guard let (first, reminder) = qu.parseX(input),
+            let (second, newReminder) = rhs.parseX(reminder) else {
+                return nil
+        }
+        return ((first, second), newReminder)
+    }
     return Parser<B>{
         input in
         guard let (result, remainder) = hao.parseX(input) else {
