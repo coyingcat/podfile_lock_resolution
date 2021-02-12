@@ -96,16 +96,33 @@ private let dependencyItem: Parser<(String, [String])> = Parser<([String]?) -> (
 
 
 
-private let dependencyItems = dependencyItem.many.convert{ x -> [String : [String]] in
+private let dependencyItems: Parser<[String: [String]]> = dependencyItem.many.convert{ x -> [String : [String]] in
     var map = [String: [String]]()
     x.forEach { map[$0.0] = $0.1 }
     return map
 }
 
-
 /// 解析 Podfile.lock
 /// 解析成功会返回 [String: [String]]
 /// key: Pod Name
 /// value: 该 Pod 依赖的其他 Pods
-let PodLockFileParser: Parser<[String: [String]]> = podsX *> dependencyItems
+let PodLockFileParser: Parser<[String: [String]]> = {
+    let qu = Parser<([String: [String]]) -> [String: [String]]>{
+        input in
+        guard let (_, remainder) = podsX.parseX(input) else {
+            return nil
+        }
+        return ({a in a}, remainder)
+    }
+    let hao: Parser<(([String: [String]]) -> [String: [String]], [String: [String]])> = qu.followed(by: dependencyItems)
+    
+    return Parser<[String: [String]]>{
+        input in
+        guard let (result, remainder) = hao.parseX(input) else {
+            return nil
+        }
+        return (result.1, remainder)
+    }
+}()
+
 
