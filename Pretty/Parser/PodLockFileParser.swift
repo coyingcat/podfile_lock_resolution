@@ -51,11 +51,6 @@ func string(_ string: String) -> Parser<String> {
     }
 }
 
-func dependencyCombine(name: String, sons: [String]?) -> (String, [String]) {
-    
-    return (name, sons ?? [])
-}
-
 /// 冒号
 private let colon = character { $0 == ":" }
 
@@ -91,9 +86,7 @@ private let item: Parser<String> = (indentation *> hyphon *> space *> quote.opti
 
 private let subItem: Parser<String> = indentation *> item
 // 很有意思的，初始化方法
-private let dependencyItem: Parser<(String, [String])> = item.convert({ x in { y in dependencyCombine(name: x, sons: y) } }).followed(by: subItem.many.optional).convert{ $0($1) }
-
-
+private let dependencyItem: Parser<(String, [String])> = item.convert({ x in { y in (x, y ?? []) } }).followed(by: subItem.many.optional).convert{ $0($1) }
 
 
 

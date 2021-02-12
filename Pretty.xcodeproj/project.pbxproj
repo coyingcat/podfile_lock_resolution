@@ -23,7 +23,6 @@
 		C2756E1720765CBB00FF160B /* RandomColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E0420765CBA00FF160B /* RandomColor.swift */; };
 		C2756E1820765CBB00FF160B /* ColorDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E0520765CBA00FF160B /* ColorDefinition.swift */; };
 		C2756E1920765CBB00FF160B /* Hue.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E0620765CBA00FF160B /* Hue.swift */; };
-		C2756E1E20765CBB00FF160B /* Curry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E0E20765CBB00FF160B /* Curry.swift */; };
 		C2756E1F20765CBB00FF160B /* Runes.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E0F20765CBB00FF160B /* Runes.swift */; };
 		C2756E2020765CBB00FF160B /* PodLockFileParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E1020765CBB00FF160B /* PodLockFileParser.swift */; };
 		C2756E2120765CBB00FF160B /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2756E1120765CBB00FF160B /* Parser.swift */; };
@@ -58,7 +57,6 @@
 		C2756E0520765CBA00FF160B /* ColorDefinition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorDefinition.swift; sourceTree = "<group>"; };
 		C2756E0620765CBA00FF160B /* Hue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hue.swift; sourceTree = "<group>"; };
 		C2756E0720765CBA00FF160B /* RandomColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomColor.h; sourceTree = "<group>"; };
-		C2756E0E20765CBB00FF160B /* Curry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curry.swift; sourceTree = "<group>"; };
 		C2756E0F20765CBB00FF160B /* Runes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Runes.swift; sourceTree = "<group>"; };
 		C2756E1020765CBB00FF160B /* PodLockFileParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PodLockFileParser.swift; sourceTree = "<group>"; };
 		C2756E1120765CBB00FF160B /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -152,7 +150,6 @@
 		C2756E0D20765CBB00FF160B /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				C2756E0E20765CBB00FF160B /* Curry.swift */,
 				C2756E0F20765CBB00FF160B /* Runes.swift */,
 				C2756E1120765CBB00FF160B /* Parser.swift */,
 				C2756E1020765CBB00FF160B /* PodLockFileParser.swift */,
@@ -271,7 +268,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C2756E1E20765CBB00FF160B /* Curry.swift in Sources */,
 				C239289520791D410071E305 /* Color+Difference.swift in Sources */,
 				C26572C220786509005650E8 /* CharacterSet+Extension.swift in Sources */,
 				C239289320791B980071E305 /* ColorDifference.swift in Sources */,
