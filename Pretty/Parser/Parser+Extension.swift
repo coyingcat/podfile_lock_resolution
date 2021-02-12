@@ -29,10 +29,25 @@ extension Parser {
     
     
     var many: Parser<[Result]> {
-        convert(curry { [$0] + $1 }).followed(by: self._many).convert{ $0($1) }
+        
+        let aaa: (Result) -> ([Result]) -> [Result] = curry { (a, b) -> [Result] in
+            [a] + b
+        }
+        let bbb: Parser<(Array<Result>) -> Array<Result>> = convert(curry { [$0] + $1 })
+     
+        return convert(curry { [$0] + $1 }).followed(by: self._many).convert{ $0($1) }
     }
 
- 
+ /*
+     Parser<[Result]>{
+         input in
+         guard let (result, remainder) = self.parseX(input) else {
+             return nil
+         }
+         return (curry { [$0] + $1 }(result), remainder)
+     }.followed(by: self._many).convert{ $0($1) }
+     
+     */
     func convert<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
         
         return Parser<T> {
