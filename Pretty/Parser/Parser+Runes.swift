@@ -51,3 +51,4 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
     
     return ggg
 }
+// 不能确定类型，是因为不给足信息，可以存在多种解释
