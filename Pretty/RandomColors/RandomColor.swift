@@ -131,10 +131,8 @@ public func randomColor(hue: Hue = .random, luminosity: Luminosity = .random) ->
     }
     
     func pickBrightness(color: ColorDefinition, saturationValue: Int, luminosity: Luminosity) -> Int {
-        var color = color
- 
         func getMinimumBrightness(saturationValue: Int) -> Int {
-            var lowerBounds = color.lowerBounds;
+            let lowerBounds = color.lowerBounds;
             for i in 0 ..< lowerBounds.count - 1 {
                 
                 let s1 = Float(lowerBounds[i].0)
@@ -177,17 +175,10 @@ public func randomColor(hue: Hue = .random, luminosity: Luminosity = .random) ->
     let saturationValue = pickSaturation(color: color, hue: hue, luminosity: luminosity)
     let brightnessValue = pickBrightness(color: color, saturationValue: saturationValue, luminosity: luminosity)
     
-    #if os(iOS)
-    return Color(hue: CGFloat(hueValue) / 360.0,
-            saturation: CGFloat(saturationValue) / 100.0,
-            brightness: CGFloat(brightnessValue) / 100.0,
-                 alpha: 1.0)
-    #else
     return Color(deviceHue: CGFloat(hueValue) / 360.0,
                 saturation: CGFloat(saturationValue) / 100.0,
                 brightness: CGFloat(brightnessValue) / 100.0,
                      alpha: 1.0)
-    #endif
 }
 
 /**
