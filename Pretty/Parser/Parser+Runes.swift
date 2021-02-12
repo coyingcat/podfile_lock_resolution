@@ -41,8 +41,8 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         return (input.0(input.1)(result), remainder)
     }
     */
-    
-    return lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert { (a: (B) -> A, b: B) -> A in
+    let www: Parser<((B) -> A, B)> = lhs.convert(curry({ x, _ in x })).followed(by: rhs)
+    return www.convert { (a: (B) -> A, b: B) -> A in
         a(b)
     }
     /*

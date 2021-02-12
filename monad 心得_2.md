@@ -2,7 +2,12 @@
 
 <hr>
 
+closure, type define
 
+
+签名非常的不直观
+
+<hr>
 
 函数式编程，
 
