@@ -51,7 +51,14 @@ func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A> {
         }
         return (result, remainder)
     }
-    let www: Parser<(A, B)> = caca.followed(by: rhs)
+    let www: Parser<(A, B)> = Parser<(A, B)>{
+        input in
+        guard let (first, reminder) = caca.parseX(input),
+            let (second, newReminder) = rhs.parseX(reminder) else {
+                return nil
+        }
+        return ((first, second), newReminder)
+    }
     return Parser<A> {
         input in
         guard let (result, remainder) = www.parseX(input) else {
