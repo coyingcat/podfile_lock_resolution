@@ -34,7 +34,7 @@ extension Parser {
             guard let (result, remainder) = self.parseX(input) else {
                 return nil
             }
-            return (curry{ [$0] + $1 }(result), remainder)
+            return ({ x in { y in [x] + y } }(result), remainder)
         }.followed(by: self._many).convert{ $0($1) }
     }
 
