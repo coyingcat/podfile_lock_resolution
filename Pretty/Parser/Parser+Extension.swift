@@ -11,14 +11,12 @@ import Foundation
 
 extension Parser {
     
-    private var _many: Parser<[Result]> {
+    var many: Parser<[Result]> {
         Parser<[Result]> {
             input in
             var result = [Result]()
             var remainder = input
-            
             while let (element, newRemainder) = self.parseX(remainder) {
-                
                 result.append(element)
                 remainder = newRemainder
             }
@@ -26,17 +24,8 @@ extension Parser {
         }
     }
     
-    
-    var many: Parser<[Result]> {
-        Parser<[Result]>{
-            input in
-            guard let (result, remainder) = self.parseX(input) else {
-                return nil
-            }
-            return ( [result], remainder)
-            // $0, [result], 数组里面，只含有一个元素
-        }.followed(by: self._many).convert{ $0 + $1 }
-    }
+    // 啥叫，脱裤子放屁
+  
 
     func convert<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
         
