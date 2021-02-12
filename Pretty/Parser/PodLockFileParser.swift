@@ -76,6 +76,8 @@ private let podsX: Parser<String> = string("PODS:\n")
 private let word: Parser<String> = character {
     !CharacterSet.whitespacesAndNewlines.contains($0) }.many.convert{ String($0) }
 
+
+// 这个有意思， 这里直观
 /// Parse Version Part: `(= 1.2.2)` or `(1.2.3)` or `(whatever)`
 private let version: Parser<((Character, [Character]), Character)> = leftParent.followed(by: character { $0 != ")" }.many).followed(by: rightParent)
 
