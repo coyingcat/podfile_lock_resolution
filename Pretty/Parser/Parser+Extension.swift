@@ -29,10 +29,10 @@ extension Parser {
     
     
     var many: Parser<[Result]> {
-        tranformX(lhs: curry { [$0] + $1 }, rhs: self).followed(by: self._many).convert{ $0($1) }
+        convert(curry { [$0] + $1 }).followed(by: self._many).convert{ $0($1) }
     }
 
-    
+ 
     func convert<T>(_ transform: @escaping (Result) -> T) -> Parser<T> {
         
         return Parser<T> {

@@ -8,19 +8,6 @@
 
 import Foundation
 
-
-/// Functor Operator
-/// a -> b -> m a -> m b
-///
-/// - Parameters:
-///   - lhs: a -> b
-///   - rhs: m a
-/// - Returns: m b
-func tranformX<A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
-    return rhs.convert(lhs)
-}
-
-
 /// Ignoring Left
 /// ma -> mb -> mb
 ///
@@ -29,8 +16,8 @@ func tranformX<A, B>(lhs: @escaping (A) -> B, rhs: Parser<A>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m b
 func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
-    return tranformX(lhs: curry({ _,
-                                  y in y }), rhs: lhs).followed(by: rhs).convert{ $0($1) }
+    return lhs.convert(curry({ _,
+                               y in y })).followed(by: rhs).convert{ $0($1) }
 }
 
 /// Ignoring Right
@@ -41,7 +28,5 @@ func *><A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<B> {
 ///   - rhs: m b
 /// - Returns: m a
 func <*<A, B>(lhs: Parser<A>, rhs: Parser<B>) -> Parser<A > {
-    return  tranformX(lhs: curry({ x, _ in x }), rhs: lhs).followed(by: rhs).convert{ $0($1) }
+    return lhs.convert(curry({ x, _ in x })).followed(by: rhs).convert{ $0($1) }
 }
-
-
