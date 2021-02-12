@@ -1,3 +1,12 @@
+理解 haskell,
+
+
+就是不断的，函数展开
+
+
+
+<hr>
+
 m a,
 
 即 Monadic a
