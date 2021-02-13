@@ -15,12 +15,9 @@ struct Parser {
         
         struct Tag{
             let pageStart = "PODS:\n"
-            let lineStart = "  "
-            let sublineStart: String
             let lineEnd: Character = "\n"
             let pageEnd: String
             init() {
-                sublineStart = lineStart + lineStart
                 pageEnd = "\(lineEnd)\(lineEnd)"
             }
         }
@@ -35,10 +32,20 @@ struct Parser {
         }
         var result = [String: [String]]()
         let list = temp.split(separator: tag.lineEnd)
+        var key = ""
+        var vals = [String]()
+        var started = false
         for item in list{
-            
-            if let check = String(item).match(regex: #"  \"?(.+) \("#){
-                print(check)
+            if let tmpSubitem = String(item).match(regex: #"    \"?(.+) \("#){
+                vals.append(tmpSubitem)
+            }
+            else if let tmpItem = String(item).match(regex: #"  \"?(.+) \("#){
+                if started{
+                    result[key] = vals
+                }
+                vals.removeAll()
+                started = true
+                key = tmpItem
             }
             
         }
@@ -56,8 +63,12 @@ struct Parser {
     func parse(_ content: String) -> [String: [String]]?{
         
        
-        one(content)
-
+        var result = one(content)
+        result?.forEach({ (key: String, value: [String]) in
+            print(key)
+            print(value)
+            print("\n\n\n")
+        })
         return nil
     }
 }
@@ -70,19 +81,17 @@ extension String{
     }
 
 
-    func match(regex: String) -> [String]? {
+    func match(regex: String) -> String? {
         guard let regex = try? NSRegularExpression(pattern: regex) else {
-            return []
+            return nil
         }
         let results = regex.matches(in: self, range: NSRange(location: 0, length: utf8.count))
         let nsString = self as NSString
-        if results.isEmpty{
-            return nil
+        if let first = results.first{
+            return nsString.substring(with: first.range)
         }
         else{
-            return results.map {
-                nsString.substring(with: $0.range)
-            }
+            return nil
         }
     }
 }
