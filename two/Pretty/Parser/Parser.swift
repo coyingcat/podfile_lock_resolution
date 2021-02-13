@@ -34,9 +34,9 @@ struct Parser {
         if let temp = info.components(separatedBy: tag.pageEnd).first{
             let list = temp.split(separator: tag.lineEnd)
             for item in list{
-                if let check = String(item).regex(pattern: "  \"?(.+) \\(?.+\\)"){
-                    print(check)
-                }
+                let check = String(item).match(regex: #"  \"?(.+) \("#)
+                    
+                print(check)
             }
         }
         if result.isEmpty{
@@ -67,22 +67,14 @@ extension String{
     }
 
 
-  func regex(pattern: String) -> [String]?{
-    do {
-        let regex = try NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options(rawValue: 0))
-        let all = NSRange(location: 0, length: count)
-        var matches = [String]()
-        regex.enumerateMatches(in: self, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: all) {
-            (result : NSTextCheckingResult?, _, _) in
-              if let r = result {
-                    let nsstr = self as NSString
-                    let result = nsstr.substring(with: r.range) as String
-                    matches.append(result)
-              }
+    func match(regex: String) -> [String] {
+        guard let regex = try? NSRegularExpression(pattern: regex, options: []) else {
+            return []
         }
-        return matches
-    } catch {
-        return nil
+        let results = regex.matches(in: self, options: [], range: NSRange(location: 0, length: count))
+        let nsString = self as NSString
+        return results.map {
+            nsString.substring(with: $0.range)
+        }
     }
-  }
 }
