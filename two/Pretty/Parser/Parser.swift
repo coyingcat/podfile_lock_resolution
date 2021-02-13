@@ -36,8 +36,7 @@ struct Parser {
         var result = [String: [String]]()
         let list = temp.split(separator: tag.lineEnd)
         for item in list{
-            let check = String(item).match(regex: #"  \"?((.+)) \("#)
-                
+            let check = String(item).match(regex: "  \"?(.+) \\(")
             print(check)
         }
         
@@ -53,15 +52,8 @@ struct Parser {
     
     func parse(_ content: String) -> [String: [String]]?{
         
-        let s = "hey ho ha"
-        let pattern = "(h).*(h).*(h)"
-        // our goal is capture group 3, "h" in "ha"
-        let regex = try! NSRegularExpression(pattern: pattern)
-        let result = regex.matches(in:s, range:NSMakeRange(0, s.utf16.count))
-        let third = result[0].range(at: 3) // <-- !!
-        print(third.location) // 7
-        print(third.length)
-         one(content)
+       
+        one(content)
         
         
         return nil
