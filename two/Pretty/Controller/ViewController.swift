@@ -67,7 +67,7 @@ class ViewController: NSViewController {
     func updateWithLockFile(filename: String) {
         do {
             let string = try String(contentsOfFile: filename, encoding: .utf8)
-            if let (dependency, _) = PodLockFileParser.parseX(Substring(string)) {
+            if let dependency = Parser.parse(string) {
                 // print(dependency)
                 relationView.prettyRelation = PrettyRelation(dependency: dependency)
             } else {

@@ -8,11 +8,9 @@
 
 import Foundation
 
-struct Parser<Result> {
-    // result 分为两种，
-    // String / Character
-    
-    // (结果， 中间数据)
-    let parseX: (Substring) -> (Result, Substring)?
-}
 
+struct Parser {
+    static func parse(_ content: String) -> [String: [String]]?{
+        return nil
+    }
+}
