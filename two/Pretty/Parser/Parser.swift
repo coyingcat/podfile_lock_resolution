@@ -36,8 +36,11 @@ struct Parser {
         var result = [String: [String]]()
         let list = temp.split(separator: tag.lineEnd)
         for item in list{
-            let check = String(item).match(regex: "  \"?(.+) \\(")
-            print(check)
+            
+            if let check = String(item).match(regex: #"  \"?(.+) \("#){
+                print(check)
+            }
+            
         }
         
         if result.isEmpty{
@@ -54,8 +57,7 @@ struct Parser {
         
        
         one(content)
-        
-        
+
         return nil
     }
 }
@@ -68,19 +70,19 @@ extension String{
     }
 
 
-    func match(regex: String) -> [String] {
-        guard let regex = try? NSRegularExpression(pattern: regex, options: .init(rawValue: 0)) else {
+    func match(regex: String) -> [String]? {
+        guard let regex = try? NSRegularExpression(pattern: regex) else {
             return []
         }
-        let results = regex.matches(in: self, options: .init(rawValue: 0), range: NSRange(location: 0, length: count))
-        
-        print(results.count)
-        
-        
+        let results = regex.matches(in: self, range: NSRange(location: 0, length: utf8.count))
         let nsString = self as NSString
-        
-        return results.map {
-            nsString.substring(with: $0.range)
+        if results.isEmpty{
+            return nil
+        }
+        else{
+            return results.map {
+                nsString.substring(with: $0.range)
+            }
         }
     }
 }
