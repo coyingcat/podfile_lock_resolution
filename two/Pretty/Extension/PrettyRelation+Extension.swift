@@ -16,7 +16,7 @@ private let kRelationViewPadding        =   40
 
 private func widthForItem(_ text: String) -> Int {
     
-    return 10 + 9 * text.count
+    return 10 + 10 * text.count
 }
 
 

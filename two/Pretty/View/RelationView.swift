@@ -141,7 +141,7 @@ class RelationView: NSView {
                 let key = parent.name + "|" + son
                 let shapeLayer = CAShapeLayer()
                 shapeLayer.fillColor = NSColor.clear.cgColor
-                shapeLayer.strokeColor = color?.cgColor
+                shapeLayer.strokeColor = color?.half.cgColor
                 shapeLayer.lineWidth = 2
                 shapeLayer.path = linePath(parent: parent.name, son: son)
                 lineMap[key] = shapeLayer
@@ -211,11 +211,20 @@ class RelationView: NSView {
                     
                     value.strokeColor = NSColor.blue.cgColor
                 } else {
-                    value.strokeColor = itemMap[components.first!]?.backgroundColor?.cgColor
+                    value.strokeColor = itemMap[components.first!]?.backgroundColor?.half.cgColor
                 }
             }
         }
         
     }
     
+}
+
+
+
+extension NSColor{
+    var half: NSColor{
+        withAlphaComponent(0.3)
+    }
+
 }
