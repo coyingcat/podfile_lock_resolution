@@ -8,10 +8,9 @@
 
 import Foundation
 
-
 struct Parser {
     
-    func one(_ content: String) -> [String: [String]]?{
+    func parse(_ content: String) -> [String: [String]]?{
         
         struct Tag{
             let pageStart = "PODS:\n"
@@ -20,7 +19,7 @@ struct Parser {
             let itemStart = String(repeating: " ", count: 2)
             let subItemStart = String(repeating: " ", count: 4)
             init() {
-                pageEnd = "\(lineEnd)\(lineEnd)"
+                pageEnd = String(repeating: "\(lineEnd)", count: 2)
             }
         }
         
@@ -60,14 +59,6 @@ struct Parser {
             return result
         }
     }
-    
-    
-    
-    func parse(_ content: String) -> [String: [String]]?{
-        
-        var result = one(content)
-        return result
-    }
 }
 
 
@@ -97,11 +88,6 @@ extension String{
         }
     }
     
-    
-    
-    
-    
-
     func match(regex: String) -> String? {
         guard let regex = try? NSRegularExpression(pattern: regex) else {
             return nil
