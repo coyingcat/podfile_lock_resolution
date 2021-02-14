@@ -33,24 +33,36 @@ struct Parser {
         }
         var result = [String: [String]]()
         let list = temp.split(separator: tag.lineEnd)
-        var key = ""
-        var vals = [String]()
-        var started = false
-        for item in list{
-            let tmp = String(item)
-            if tmp.hasPrefix(tag.subItemStart){
-                vals.append(tmp.rm(header: tag.subItemStart).rmRegexHeader.regexExtract)
-            }
-            else if tmp.hasPrefix(tag.itemStart){
-                if started{
-                    result[key] = vals
-                }
-                vals.removeAll()
-                started = true
+        let cnt = list.count
+        var i = 0
+        while i < cnt {
+            var tmp = String(list[i])
+            var key: String?
+            var vals = [String]()
+            if tmp.hasPrefix(tag.itemStart) , tmp.hasPrefix(tag.subItemStart) == false{
                 key = tmp.rm(header: tag.itemStart).rmRegexHeader.regexExtract
+                i += 1
             }
-            
+            var stay = true
+            while stay, i < cnt {
+                tmp = String(list[i])
+                if tmp.hasPrefix(tag.subItemStart){
+                    vals.append(tmp.rm(header: tag.subItemStart).rmRegexHeader.regexExtract)
+                    i += 1
+                }
+                else{
+                    stay = false
+                }
+            }
+            if let k = key{
+                result[k] = vals
+            }
+            else{
+                return nil
+            }
         }
+        print(result)
+        
         
         if result.isEmpty{
             return nil
