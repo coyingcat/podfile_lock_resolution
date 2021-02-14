@@ -8,20 +8,21 @@
 
 import Foundation
 
+struct Tag{
+    let pageStart = "PODS:\n"
+    let lineEnd: Character = "\n"
+    let pageEnd: String
+    let itemStart = String(repeating: " ", count: 2)
+    let subItemStart = String(repeating: " ", count: 4)
+    init() {
+        pageEnd = String(repeating: "\(lineEnd)", count: 2)
+    }
+}
+
+
 struct Parser {
     
     func parse(_ content: String) -> [String: [String]]?{
-        
-        struct Tag{
-            let pageStart = "PODS:\n"
-            let lineEnd: Character = "\n"
-            let pageEnd: String
-            let itemStart = String(repeating: " ", count: 2)
-            let subItemStart = String(repeating: " ", count: 4)
-            init() {
-                pageEnd = String(repeating: "\(lineEnd)", count: 2)
-            }
-        }
         
         let tag = Tag()
         guard content.hasPrefix(tag.pageStart) else {
@@ -39,15 +40,15 @@ struct Parser {
             var tmp = String(list[i])
             var key: String?
             var vals = [String]()
-            if tmp.hasPrefix(tag.itemStart) , tmp.hasPrefix(tag.subItemStart) == false{
-                key = tmp.rm(header: tag.itemStart).rmRegexHeader.regexExtract
+            if tmp.isItem{
+                key = tmp.rm(header: tag.itemStart).word
                 i += 1
             }
             var stay = true
             while stay, i < cnt {
                 tmp = String(list[i])
-                if tmp.hasPrefix(tag.subItemStart){
-                    vals.append(tmp.rm(header: tag.subItemStart).rmRegexHeader.regexExtract)
+                if tmp.isSubitem{
+                    vals.append(tmp.rm(header: tag.subItemStart).word)
                     i += 1
                 }
                 else{
@@ -61,9 +62,7 @@ struct Parser {
                 return nil
             }
         }
-        print(result)
-        
-        
+
         if result.isEmpty{
             return nil
         }
@@ -76,6 +75,23 @@ struct Parser {
 
 
 extension String{
+    
+    var isItem: Bool{
+        let tag = Tag()
+        return hasPrefix(tag.itemStart) && (hasPrefix(tag.subItemStart) == false)
+    }
+    
+    var isSubitem: Bool{
+        let tag = Tag()
+        return hasPrefix(tag.subItemStart)
+    }
+    
+    
+    var word: String{
+        rmRegexHeader.regexExtract
+    }
+    
+    
     func rm(header str: String) -> String{
         return String(dropFirst(str.count))
     }
