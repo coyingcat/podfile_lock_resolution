@@ -17,6 +17,8 @@ struct Parser {
             let pageStart = "PODS:\n"
             let lineEnd: Character = "\n"
             let pageEnd: String
+            let itemStart = String(repeating: " ", count: 2)
+            let subItemStart = String(repeating: " ", count: 4)
             init() {
                 pageEnd = "\(lineEnd)\(lineEnd)"
             }
@@ -36,16 +38,17 @@ struct Parser {
         var vals = [String]()
         var started = false
         for item in list{
-            if let tmpSubitem = String(item).match(regex: #"    \"?(.+) \("#){
-                vals.append(tmpSubitem)
+            let tmp = String(item)
+            if tmp.hasPrefix(tag.subItemStart){
+                vals.append(tmp.rm(header: tag.subItemStart).rmRegexHeader.regexExtract)
             }
-            else if let tmpItem = String(item).match(regex: #"  \"?(.+) \("#){
+            else if tmp.hasPrefix(tag.itemStart){
                 if started{
                     result[key] = vals
                 }
                 vals.removeAll()
                 started = true
-                key = tmpItem
+                key = tmp.rm(header: tag.itemStart).rmRegexHeader.regexExtract
             }
             
         }
@@ -62,14 +65,8 @@ struct Parser {
     
     func parse(_ content: String) -> [String: [String]]?{
         
-       
         var result = one(content)
-        result?.forEach({ (key: String, value: [String]) in
-            print(key)
-            print(value)
-            print("\n\n\n")
-        })
-        return nil
+        return result
     }
 }
 
@@ -80,6 +77,30 @@ extension String{
         return String(dropFirst(str.count))
     }
 
+    
+    var rmRegexHeader: String{
+        if let tmp = match(regex: #"- "?"#){
+            return String(dropFirst(tmp.count))
+        }
+        else{
+            return self
+        }
+    }
+    
+    
+    var regexExtract: String{
+        if let tmp = match(regex: #"[^\s]+"#){
+            return tmp
+        }
+        else{
+            return self
+        }
+    }
+    
+    
+    
+    
+    
 
     func match(regex: String) -> String? {
         guard let regex = try? NSRegularExpression(pattern: regex) else {
