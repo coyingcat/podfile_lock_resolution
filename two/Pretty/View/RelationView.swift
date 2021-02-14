@@ -143,6 +143,7 @@ class RelationView: NSView {
                 shapeLayer.fillColor = NSColor.clear.cgColor
                 shapeLayer.strokeColor = color?.half.cgColor
                 shapeLayer.lineWidth = 2
+                shapeLayer.lineDashPattern = [4, 4]
                 shapeLayer.path = linePath(parent: parent.name, son: son)
                 lineMap[key] = shapeLayer
             }
@@ -205,12 +206,13 @@ class RelationView: NSView {
                 value.path = linePath(parent: components.first!, son: components.last!)
 
                 if components.first == currentDraggingItem?.text {
-                    
+                    value.lineDashPattern = nil
                     value.strokeColor = NSColor.red.cgColor
                 } else if (components.last == currentDraggingItem?.text) {
-                    
+                    value.lineDashPattern = nil
                     value.strokeColor = NSColor.blue.cgColor
                 } else {
+                    value.lineDashPattern = [4, 4]
                     value.strokeColor = itemMap[components.first!]?.backgroundColor?.half.cgColor
                 }
             }
@@ -224,7 +226,7 @@ class RelationView: NSView {
 
 extension NSColor{
     var half: NSColor{
-        withAlphaComponent(0.3)
+        withAlphaComponent(0.4)
     }
 
 }
