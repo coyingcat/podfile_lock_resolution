@@ -67,15 +67,15 @@ class ViewController: NSViewController {
                     
                     var onePiece: String?
                     
-                    if cakes.count == 2{
+                    if cakes.count == 2, let key = cakes[0].lean.k{
                         
                         onePiece = "let "
                         print(cakes[0])
-                        onePiece?.append(cakes[0].k)
+                        onePiece?.append(key)
                         
-                        onePiece?.append(" : ")
+                        onePiece?.append(":  ")
                         
-                        let val = cakes[1].replacingOccurrences(of: " ", with: "")
+                        let val = cakes[1].lean
                         
                         if Int(val) == nil{
                             onePiece?.append("String")
@@ -86,6 +86,7 @@ class ViewController: NSViewController {
                     }
                     
                     if let info = onePiece{
+                        
                         result.append(info)
                     }
 
@@ -96,7 +97,7 @@ class ViewController: NSViewController {
             }
             
             
-            
+            print("\n\n\n\n\n")
             result.forEach {
                 print($0)
             }
@@ -131,26 +132,43 @@ class ViewController: NSViewController {
 
 extension String{
     
-    var k: String{
-        let ret = matches(for: "^\"(.+)\"$")
-        return ret[0]
+    var k: String?{
+            let ret = groups(for: "^\"(.+)\"$")
+            //      print(ret)
+            
+            if ret.count > 0, ret[0].count > 1{
+                return ret[0][1]
+            }
+            else{
+                return nil
+            }
     }
     
+
+    func groups(for regexPattern: String) -> [[String]] {
+       do {
+           let text = self
+           let regex = try NSRegularExpression(pattern: regexPattern)
+           let matches = regex.matches(in: text,
+                                       range: NSRange(text.startIndex..., in: text))
+           return matches.map { match in
+               return (0..<match.numberOfRanges).map {
+                   let rangeBounds = match.range(at: $0)
+                   guard let range = Range(rangeBounds, in: text) else {
+                       return ""
+                   }
+                   return String(text[range])
+               }
+           }
+       } catch let error {
+           print("invalid regex: \(error.localizedDescription)")
+           return []
+       }
+   }
     
     
-    func matches(for regex: String) -> [String] {
-        
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let results = regex.matches(in: self,
-                                        range: NSRange(self.startIndex..., in: self))
-            return results.map {
-                String(self[Range($0.range, in: self)!])
-            }
-        } catch let error {
-            print("invalid regex: \(error)")
-            return []
-        }
+    var lean: String{
+        replacingOccurrences(of: " ", with: "")
     }
     
     
