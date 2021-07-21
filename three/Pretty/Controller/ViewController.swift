@@ -15,9 +15,9 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        view.layer?.backgroundColor = NSColor.red.cgColor
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleOpenFile(notification:)), name: NSNotification.Name(rawValue: OCTOpenFileNotification), object: nil)
-     //   FileName = "/Users/jzd/Downloads/Lumiere/Podfile.lock"
+        FileName = "/Users/jzd/Movies/podfile_lock_resolution/three/Pretty/Resource/one.json"
         if FileName.count > 0 {
             parse(file: FileName)
         }
@@ -51,9 +51,45 @@ class ViewController: NSViewController {
     
     func handle(file name: String) {
         do {
-            let string = try String(contentsOfFile: name, encoding: .utf8)
+            let content = try String(contentsOfFile: name, encoding: .utf8)
+            let myStrings = content.components(separatedBy: .newlines)
+            
+            var result = [String]()
             
             
+            
+            for ln in myStrings{
+                
+                
+                if ln.contains("\""){
+                    
+                    let cakes = ln.components(separatedBy: ":")
+                    
+                    var onePiece: String?
+                    
+                    if cakes.count == 2{
+                        
+                        
+                        
+                        
+                        
+                    }
+                    
+                    if let info = onePiece{
+                        result.append(info)
+                    }
+
+                }
+                
+                
+                
+            }
+            
+            
+            
+            result.forEach {
+                print($0)
+            }
             
         } catch {
             
@@ -79,4 +115,5 @@ class ViewController: NSViewController {
     }
 
 }
+
 
