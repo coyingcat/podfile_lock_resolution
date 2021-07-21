@@ -64,13 +64,16 @@ class ViewController: NSViewController {
                 if ln.contains("\""){
                     
                     let cakes = ln.components(separatedBy: ":")
-                    
+                    cakes.forEach {
+                        print($0)
+                    }
+                    print("\n\n\n\n\n")
                     var onePiece: String?
-                    
-                    if cakes.count == 2, let key = cakes[0].lean.k{
+                    print(cakes.count)
+                    if cakes.count > 1, let key = cakes[0].lean.k{
                         
                         onePiece = "let "
-                        print(cakes[0])
+                      //  print(cakes[0])
                         onePiece?.append(key)
                         
                         onePiece?.append(":  ")
@@ -101,7 +104,7 @@ class ViewController: NSViewController {
             result.forEach {
                 print($0)
             }
-            
+            print("\n\n\n\n\n")
         } catch {
             
             alert(title: "Error", msg: error.localizedDescription)
