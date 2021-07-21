@@ -69,10 +69,20 @@ class ViewController: NSViewController {
                     
                     if cakes.count == 2{
                         
+                        onePiece = "let "
+                        print(cakes[0])
+                        onePiece?.append(cakes[0].k)
                         
+                        onePiece?.append(" : ")
                         
+                        let val = cakes[1].replacingOccurrences(of: " ", with: "")
                         
-                        
+                        if Int(val) == nil{
+                            onePiece?.append("String")
+                        }
+                        else{
+                            onePiece?.append("Int")
+                        }
                     }
                     
                     if let info = onePiece{
@@ -115,5 +125,36 @@ class ViewController: NSViewController {
     }
 
 }
+
+
+
+
+extension String{
+    
+    var k: String{
+        let ret = matches(for: "^\"(.+)\"$")
+        return ret[0]
+    }
+    
+    
+    
+    func matches(for regex: String) -> [String] {
+        
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let results = regex.matches(in: self,
+                                        range: NSRange(self.startIndex..., in: self))
+            return results.map {
+                String(self[Range($0.range, in: self)!])
+            }
+        } catch let error {
+            print("invalid regex: \(error)")
+            return []
+        }
+    }
+    
+    
+}
+
 
 
